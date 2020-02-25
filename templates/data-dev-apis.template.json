@@ -1,0 +1,1118 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "ApimServiceName": {
+      "type": "string"
+    },
+    "PolicyXMLBaseUrl": {
+      "type": "string"
+    }
+  },
+  "resources": [
+    {
+      "properties": {
+        "authenticationSettings": {
+          "subscriptionKeyRequired": false
+        },
+        "subscriptionKeyParameterNames": {
+          "header": "Ocp-Apim-Subscription-Key",
+          "query": "subscription-key"
+        },
+        "apiRevision": "1",
+        "isCurrent": true,
+        "displayName": "Product API",
+        "path": "product",
+        "protocols": [
+          "https"
+        ]
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/productapi')]",
+      "type": "Microsoft.ApiManagement/service/apis",
+      "apiVersion": "2019-01-01",
+      "dependsOn": []
+    },
+    {
+      "properties": {
+        "templateParameters": [
+          {
+            "name": "version",
+            "type": "string",
+            "required": true,
+            "values": []
+          }
+        ],
+        "description": "\"Site-API V1 is Alive\" if the service is online",
+        "request": {
+          "queryParameters": [],
+          "headers": [],
+          "representations": []
+        },
+        "responses": [
+          {
+            "statusCode": 200,
+            "description": "Success",
+            "headers": [],
+            "representations": []
+          }
+        ],
+        "displayName": "Find if API is online\r\nurl : api/v1/status",
+        "method": "GET",
+        "urlTemplate": "/api/v{version}/status"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/productapi/get-api-v-version-status')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations",
+      "apiVersion": "2019-01-01",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis', parameters('ApimServiceName'), 'productapi')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "Status"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/productapi/get-api-v-version-status/Status')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2019-01-01",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations', parameters('ApimServiceName'), 'productapi', 'get-api-v-version-status')]"
+      ]
+    },
+    {
+      "properties": {
+        "templateParameters": [],
+        "request": {
+          "queryParameters": [],
+          "headers": [],
+          "representations": []
+        },
+        "responses": [
+          {
+            "statusCode": 200,
+            "description": "Success",
+            "headers": [],
+            "representations": []
+          }
+        ],
+        "displayName": "Get_HostInfoController_GetApplicationName",
+        "method": "GET",
+        "urlTemplate": "/api/hostinfo/getapplicationname"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/productapi/Get_HostInfoController_GetApplicationName')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations",
+      "apiVersion": "2019-01-01",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis', parameters('ApimServiceName'), 'productapi')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "HostInfo"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/productapi/Get_HostInfoController_GetApplicationName/HostInfo')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2019-01-01",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations', parameters('ApimServiceName'), 'productapi', 'Get_HostInfoController_GetApplicationName')]"
+      ]
+    },
+    {
+      "properties": {
+        "templateParameters": [],
+        "request": {
+          "queryParameters": [],
+          "headers": [],
+          "representations": []
+        },
+        "responses": [
+          {
+            "statusCode": 200,
+            "description": "Success",
+            "headers": [],
+            "representations": []
+          }
+        ],
+        "displayName": "Get_HostInfoController_GetHostName",
+        "method": "GET",
+        "urlTemplate": "/api/hostinfo/gethostname"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/productapi/Get_HostInfoController_GetHostName')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations",
+      "apiVersion": "2019-01-01",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis', parameters('ApimServiceName'), 'productapi')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "HostInfo"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/productapi/Get_HostInfoController_GetHostName/HostInfo')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2019-01-01",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations', parameters('ApimServiceName'), 'productapi', 'Get_HostInfoController_GetHostName')]"
+      ]
+    },
+    {
+      "properties": {
+        "templateParameters": [
+          {
+            "name": "fullPLU",
+            "type": "string",
+            "required": true,
+            "values": []
+          },
+          {
+            "name": "version",
+            "type": "string",
+            "required": true,
+            "values": []
+          }
+        ],
+        "description": "url : api/v{version:apiVersion}/products/{fullPLU}",
+        "request": {
+          "queryParameters": [],
+          "headers": [],
+          "representations": []
+        },
+        "responses": [
+          {
+            "statusCode": 200,
+            "description": "Success",
+            "headers": [],
+            "representations": []
+          },
+          {
+            "statusCode": 404,
+            "description": "Not Found",
+            "headers": [],
+            "representations": []
+          }
+        ],
+        "displayName": "url : api/v{version:apiVersion}/products/{fullPLU}",
+        "method": "GET",
+        "urlTemplate": "/api/v{version}/products/fullplu/{fullPLU}"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/productapi/get-api-v-version-products-fullplu-fullplu')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations",
+      "apiVersion": "2019-01-01",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis', parameters('ApimServiceName'), 'productapi')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "Product"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/productapi/get-api-v-version-products-fullplu-fullplu/Product')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2019-01-01",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations', parameters('ApimServiceName'), 'productapi', 'get-api-v-version-products-fullplu-fullplu')]"
+      ]
+    },
+    {
+      "properties": {
+        "templateParameters": [
+          {
+            "name": "itemNumber",
+            "type": "string",
+            "required": true,
+            "values": []
+          },
+          {
+            "name": "version",
+            "type": "string",
+            "required": true,
+            "values": []
+          }
+        ],
+        "description": "url : api/v{version:apiVersion}/products/{itemNumber}",
+        "request": {
+          "queryParameters": [],
+          "headers": [],
+          "representations": []
+        },
+        "responses": [
+          {
+            "statusCode": 200,
+            "description": "Success",
+            "headers": [],
+            "representations": []
+          }
+        ],
+        "displayName": "url : api/v{version:apiVersion}/products/{itemNumber}",
+        "method": "GET",
+        "urlTemplate": "/api/v{version}/products/itemnumber/{itemNumber}"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/productapi/get-api-v-version-products-itemnumber-itemnumber')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations",
+      "apiVersion": "2019-01-01",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis', parameters('ApimServiceName'), 'productapi')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "Product"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/productapi/get-api-v-version-products-itemnumber-itemnumber/Product')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2019-01-01",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations', parameters('ApimServiceName'), 'productapi', 'get-api-v-version-products-itemnumber-itemnumber')]"
+      ]
+    },
+    {
+      "properties": {
+        "templateParameters": [
+          {
+            "name": "version",
+            "type": "string",
+            "required": true,
+            "values": []
+          }
+        ],
+        "description": "url : api/v1/products",
+        "request": {
+          "queryParameters": [],
+          "headers": [],
+          "representations": []
+        },
+        "responses": [
+          {
+            "statusCode": 200,
+            "description": "Success",
+            "headers": [],
+            "representations": []
+          },
+          {
+            "statusCode": 404,
+            "description": "Not Found",
+            "headers": [],
+            "representations": []
+          }
+        ],
+        "displayName": "url : api/v1/products",
+        "method": "GET",
+        "urlTemplate": "/api/v{version}/products"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/productapi/get-api-v-version-products')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations",
+      "apiVersion": "2019-01-01",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis', parameters('ApimServiceName'), 'productapi')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "Product"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/productapi/get-api-v-version-products/Product')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2019-01-01",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations', parameters('ApimServiceName'), 'productapi', 'get-api-v-version-products')]"
+      ]
+    },
+    {
+      "properties": {
+        "value": "[concat(parameters('PolicyXMLBaseUrl'), '/productapi-apiPolicy.xml')]",
+        "format": "rawxml-link"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/productapi/policy')]",
+      "type": "Microsoft.ApiManagement/service/apis/policies",
+      "apiVersion": "2019-01-01",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis', parameters('ApimServiceName'), 'productapi')]"
+      ]
+    },
+    {
+      "properties": {},
+      "name": "[concat(parameters('ApimServiceName'), '/product/productapi')]",
+      "type": "Microsoft.ApiManagement/service/products/apis",
+      "apiVersion": "2019-01-01",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis', parameters('ApimServiceName'), 'productapi')]"
+      ]
+    },
+    {
+      "properties": {
+        "authenticationSettings": {
+          "oAuth2": {
+            "authorizationServerId": "dataauth"
+          },
+          "subscriptionKeyRequired": false
+        },
+        "subscriptionKeyParameterNames": {
+          "header": "Ocp-Apim-Subscription-Key",
+          "query": "subscription-key"
+        },
+        "apiRevision": "1",
+        "isCurrent": true,
+        "subscriptionRequired": true,
+        "displayName": "Site API",
+        "path": "site",
+        "protocols": [
+          "https"
+        ]
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/siteapi')]",
+      "type": "Microsoft.ApiManagement/service/apis",
+      "apiVersion": "2019-01-01",
+      "dependsOn": []
+    },
+    {
+      "properties": {
+        "contentType": "application/vnd.oai.openapi.components+json",
+        "document": {
+          "components": {
+            "schemas": {
+              "CloudSiteAPI.Models.SiteCatalog": {
+                "type": "object",
+                "properties": {
+                  "siteNumber": {
+                    "type": "integer",
+                    "format": "int32",
+                    "nullable": true
+                  },
+                  "UPC": {
+                    "type": "integer",
+                    "format": "int64",
+                    "nullable": true
+                  },
+                  "itemNumber": {
+                    "type": "string",
+                    "nullable": true
+                  },
+                  "retailPrice": {
+                    "type": "number",
+                    "format": "double",
+                    "nullable": true
+                  },
+                  "upcWithScanModifier": {
+                    "type": "string",
+                    "nullable": true
+                  },
+                  "lastModifiedDate": {
+                    "type": "string",
+                    "format": "date-time",
+                    "nullable": true
+                  }
+                },
+                "additionalProperties": false
+              },
+              "CloudSiteAPI.Models.Dto.SiteCatalog.Search": {
+                "type": "object",
+                "properties": {
+                  "siteNumber": {
+                    "type": "integer",
+                    "format": "int32"
+                  },
+                  "upcWithScanModifiers": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "nullable": true
+                  }
+                },
+                "additionalProperties": false
+              },
+              "ApiV-version-SitesSitenumberSitecatalogUpcwithscanmodifiersPost200ApplicationJsonResponse": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/CloudSiteAPI.Models.SiteCatalog"
+                }
+              }
+            }
+          }
+        }
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/siteapi/5e0e345ba1204e129ce63a0d')]",
+      "type": "Microsoft.ApiManagement/service/apis/schemas",
+      "apiVersion": "2019-01-01",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis', parameters('ApimServiceName'), 'siteapi')]"
+      ]
+    },
+    {
+      "properties": {
+        "contentType": "application/vnd.oai.openapi.components+json",
+        "document": {
+          "components": {
+            "schemas": {
+              "CloudSiteAPI.Models.SiteCatalog": {
+                "type": "object",
+                "properties": {
+                  "siteNumber": {
+                    "type": "integer",
+                    "format": "int32",
+                    "nullable": true
+                  },
+                  "UPC": {
+                    "type": "integer",
+                    "format": "int64",
+                    "nullable": true
+                  },
+                  "itemNumber": {
+                    "type": "string",
+                    "nullable": true
+                  },
+                  "retailPrice": {
+                    "type": "number",
+                    "format": "double",
+                    "nullable": true
+                  },
+                  "upcWithScanModifier": {
+                    "type": "string",
+                    "nullable": true
+                  },
+                  "lastModifiedDate": {
+                    "type": "string",
+                    "format": "date-time",
+                    "nullable": true
+                  }
+                },
+                "additionalProperties": false
+              },
+              "CloudSiteAPI.Models.Dto.SiteCatalog.Search": {
+                "type": "object",
+                "properties": {
+                  "siteNumber": {
+                    "type": "integer",
+                    "format": "int32"
+                  },
+                  "upcWithScanModifiers": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "nullable": true
+                  }
+                },
+                "additionalProperties": false
+              },
+              "ApiV-version-SitesSitenumberSitecatalogUpcwithscanmodifiersPost200ApplicationJsonResponse": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/CloudSiteAPI.Models.SiteCatalog"
+                }
+              }
+            }
+          }
+        }
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/siteapi/5e4ed6d1a1204e0660799e75')]",
+      "type": "Microsoft.ApiManagement/service/apis/schemas",
+      "apiVersion": "2019-01-01",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis', parameters('ApimServiceName'), 'siteapi')]"
+      ]
+    },
+    {
+      "properties": {
+        "templateParameters": [
+          {
+            "name": "version",
+            "type": "string",
+            "required": true,
+            "values": []
+          }
+        ],
+        "description": "\"Site-API V1 is Alive\" if the service is online",
+        "request": {
+          "queryParameters": [],
+          "headers": [],
+          "representations": []
+        },
+        "responses": [
+          {
+            "statusCode": 200,
+            "description": "Success",
+            "headers": [],
+            "representations": []
+          }
+        ],
+        "displayName": "Find if API is online url : api/v1/status",
+        "method": "GET",
+        "urlTemplate": "/api/v{version}/status"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/siteapi/get-api-v-version-status')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations",
+      "apiVersion": "2019-01-01",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis', parameters('ApimServiceName'), 'siteapi')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "Status"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/siteapi/get-api-v-version-status/Status')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2019-01-01",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations', parameters('ApimServiceName'), 'siteapi', 'get-api-v-version-status')]"
+      ]
+    },
+    {
+      "properties": {
+        "templateParameters": [],
+        "description": "Get the status of the service",
+        "request": {
+          "queryParameters": [],
+          "headers": [],
+          "representations": []
+        },
+        "responses": [
+          {
+            "statusCode": 200,
+            "description": "Success",
+            "headers": [],
+            "representations": []
+          }
+        ],
+        "displayName": "Get the status of the service",
+        "method": "GET",
+        "urlTemplate": "/api/status"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/siteapi/get-api-status')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations",
+      "apiVersion": "2019-01-01",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis', parameters('ApimServiceName'), 'siteapi')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "Status"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/siteapi/get-api-status/Status')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2019-01-01",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations', parameters('ApimServiceName'), 'siteapi', 'get-api-status')]"
+      ]
+    },
+    {
+      "properties": {
+        "templateParameters": [
+          {
+            "name": "siteNumber",
+            "description": "Format - int32.",
+            "type": "integer",
+            "required": true,
+            "values": []
+          },
+          {
+            "name": "upcWithScanModifier",
+            "type": "string",
+            "required": true,
+            "values": []
+          },
+          {
+            "name": "version",
+            "type": "string",
+            "required": true,
+            "values": []
+          }
+        ],
+        "description": "Search SiteCatalog for given Store and UpcWithScanModifier",
+        "request": {
+          "queryParameters": [],
+          "headers": [],
+          "representations": []
+        },
+        "responses": [
+          {
+            "statusCode": 200,
+            "description": "Success",
+            "headers": [],
+            "representations": [
+              {
+                "contentType": "application/json",
+                "schemaId": "5e0e345ba1204e129ce63a0d",
+                "typeName": "CloudSiteAPI.Models.SiteCatalog"
+              }
+            ]
+          },
+          {
+            "statusCode": 404,
+            "description": "Not Found",
+            "headers": [],
+            "representations": []
+          }
+        ],
+        "displayName": "Search SiteCatalog for given Store and UpcWithScanModifier",
+        "method": "GET",
+        "urlTemplate": "/api/v{version}/sites/{siteNumber}/sitecatalog/{upcWithScanModifier}"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/siteapi/get-api-v-version-sites-sitenumber-sitecatalog-upcwithscanmodifier')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations",
+      "apiVersion": "2019-01-01",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis', parameters('ApimServiceName'), 'siteapi')]",
+        "[resourceId('Microsoft.ApiManagement/service/apis/schemas', parameters('ApimServiceName'), 'siteapi', '5e0e345ba1204e129ce63a0d')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "SiteCatalog"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/siteapi/get-api-v-version-sites-sitenumber-sitecatalog-upcwithscanmodifier/SiteCatalog')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2019-01-01",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations', parameters('ApimServiceName'), 'siteapi', 'get-api-v-version-sites-sitenumber-sitecatalog-upcwithscanmodifier')]"
+      ]
+    },
+    {
+      "properties": {
+        "templateParameters": [
+          {
+            "name": "version",
+            "type": "string",
+            "required": true,
+            "values": []
+          }
+        ],
+        "description": "Search SiteCatalogs for all that match searchInput\r\nat the site specified in searchInput.",
+        "request": {
+          "description": "The criteria to search by.",
+          "queryParameters": [],
+          "headers": [],
+          "representations": [
+            {
+              "contentType": "application/json;odata.metadata=minimal;odata.streaming=true",
+              "schemaId": "5e0e345ba1204e129ce63a0d",
+              "typeName": "CloudSiteAPI.Models.Dto.SiteCatalog.Search"
+            },
+            {
+              "contentType": "application/json;odata.metadata=minimal;odata.streaming=false",
+              "schemaId": "5e0e345ba1204e129ce63a0d",
+              "typeName": "CloudSiteAPI.Models.Dto.SiteCatalog.Search"
+            },
+            {
+              "contentType": "application/json;odata.metadata=minimal",
+              "schemaId": "5e0e345ba1204e129ce63a0d",
+              "typeName": "CloudSiteAPI.Models.Dto.SiteCatalog.Search"
+            },
+            {
+              "contentType": "application/json;odata.metadata=full;odata.streaming=true",
+              "schemaId": "5e0e345ba1204e129ce63a0d",
+              "typeName": "CloudSiteAPI.Models.Dto.SiteCatalog.Search"
+            },
+            {
+              "contentType": "application/json;odata.metadata=full;odata.streaming=false",
+              "schemaId": "5e0e345ba1204e129ce63a0d",
+              "typeName": "CloudSiteAPI.Models.Dto.SiteCatalog.Search"
+            },
+            {
+              "contentType": "application/json;odata.metadata=full",
+              "schemaId": "5e0e345ba1204e129ce63a0d",
+              "typeName": "CloudSiteAPI.Models.Dto.SiteCatalog.Search"
+            },
+            {
+              "contentType": "application/json;odata.metadata=none;odata.streaming=true",
+              "schemaId": "5e0e345ba1204e129ce63a0d",
+              "typeName": "CloudSiteAPI.Models.Dto.SiteCatalog.Search"
+            },
+            {
+              "contentType": "application/json;odata.metadata=none;odata.streaming=false",
+              "schemaId": "5e0e345ba1204e129ce63a0d",
+              "typeName": "CloudSiteAPI.Models.Dto.SiteCatalog.Search"
+            },
+            {
+              "contentType": "application/json;odata.metadata=none",
+              "schemaId": "5e0e345ba1204e129ce63a0d",
+              "typeName": "CloudSiteAPI.Models.Dto.SiteCatalog.Search"
+            },
+            {
+              "contentType": "application/json;odata.streaming=true",
+              "schemaId": "5e0e345ba1204e129ce63a0d",
+              "typeName": "CloudSiteAPI.Models.Dto.SiteCatalog.Search"
+            },
+            {
+              "contentType": "application/json;odata.streaming=false",
+              "schemaId": "5e0e345ba1204e129ce63a0d",
+              "typeName": "CloudSiteAPI.Models.Dto.SiteCatalog.Search"
+            },
+            {
+              "contentType": "application/json",
+              "schemaId": "5e0e345ba1204e129ce63a0d",
+              "typeName": "CloudSiteAPI.Models.Dto.SiteCatalog.Search"
+            },
+            {
+              "contentType": "application/xml",
+              "schemaId": "5e0e345ba1204e129ce63a0d",
+              "typeName": "CloudSiteAPI.Models.Dto.SiteCatalog.Search"
+            },
+            {
+              "contentType": "application/prs.odatatestxx-odata",
+              "schemaId": "5e0e345ba1204e129ce63a0d",
+              "typeName": "CloudSiteAPI.Models.Dto.SiteCatalog.Search"
+            },
+            {
+              "contentType": "application/json-patch+json",
+              "schemaId": "5e0e345ba1204e129ce63a0d",
+              "typeName": "CloudSiteAPI.Models.Dto.SiteCatalog.Search"
+            },
+            {
+              "contentType": "text/json",
+              "schemaId": "5e0e345ba1204e129ce63a0d",
+              "typeName": "CloudSiteAPI.Models.Dto.SiteCatalog.Search"
+            },
+            {
+              "contentType": "application/*+json",
+              "schemaId": "5e0e345ba1204e129ce63a0d",
+              "typeName": "CloudSiteAPI.Models.Dto.SiteCatalog.Search"
+            }
+          ]
+        },
+        "responses": [
+          {
+            "statusCode": 200,
+            "description": "Success",
+            "headers": [],
+            "representations": [
+              {
+                "contentType": "application/json",
+                "schemaId": "5e0e345ba1204e129ce63a0d",
+                "typeName": "ApiV-version-SitesSitenumberSitecatalogUpcwithscanmodifiersPost200ApplicationJsonResponse"
+              }
+            ]
+          },
+          {
+            "statusCode": 404,
+            "description": "Not Found",
+            "headers": [],
+            "representations": []
+          }
+        ],
+        "displayName": "Search SiteCatalogs for all that match searchInput\r\nat the site specified in searchInput.",
+        "method": "POST",
+        "urlTemplate": "/api/v{version}/sites/sitenumber/sitecatalog/upcwithscanmodifiers"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/siteapi/post-api-v-version-sites-sitenumber-sitecatalog-upcwithscanmodifiers')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations",
+      "apiVersion": "2019-01-01",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis', parameters('ApimServiceName'), 'siteapi')]",
+        "[resourceId('Microsoft.ApiManagement/service/apis/schemas', parameters('ApimServiceName'), 'siteapi', '5e0e345ba1204e129ce63a0d')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "SiteCatalog"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/siteapi/post-api-v-version-sites-sitenumber-sitecatalog-upcwithscanmodifiers/SiteCatalog')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2019-01-01",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations', parameters('ApimServiceName'), 'siteapi', 'post-api-v-version-sites-sitenumber-sitecatalog-upcwithscanmodifiers')]"
+      ]
+    },
+    {
+      "properties": {
+        "templateParameters": [
+          {
+            "name": "version",
+            "type": "string",
+            "required": true,
+            "values": []
+          }
+        ],
+        "description": "url : api/v1/MenuItems",
+        "request": {
+          "queryParameters": [],
+          "headers": [],
+          "representations": []
+        },
+        "responses": [
+          {
+            "statusCode": 200,
+            "description": "Success",
+            "headers": [],
+            "representations": []
+          },
+          {
+            "statusCode": 404,
+            "description": "Not Found",
+            "headers": [],
+            "representations": []
+          }
+        ],
+        "displayName": "url : api/v1/MenuItems",
+        "method": "GET",
+        "urlTemplate": "/api/v{version}/menuitems"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/siteapi/get-api-v-version-menuitems')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations",
+      "apiVersion": "2019-01-01",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis', parameters('ApimServiceName'), 'siteapi')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "MenuItems"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/siteapi/get-api-v-version-menuitems/MenuItems')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2019-01-01",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations', parameters('ApimServiceName'), 'siteapi', 'get-api-v-version-menuitems')]"
+      ]
+    },
+    {
+      "properties": {
+        "templateParameters": [
+          {
+            "name": "menuFullPLU",
+            "type": "string",
+            "required": true,
+            "values": []
+          },
+          {
+            "name": "ingredientFullPLU",
+            "type": "string",
+            "required": true,
+            "values": []
+          },
+          {
+            "name": "version",
+            "type": "string",
+            "required": true,
+            "values": []
+          }
+        ],
+        "description": "url : api/v1/menuItems/menuFullPLU/{menuFullPLU}/ingredientFullPLU/{ingredientFullPLU}",
+        "request": {
+          "queryParameters": [],
+          "headers": [],
+          "representations": []
+        },
+        "responses": [
+          {
+            "statusCode": 200,
+            "description": "Success",
+            "headers": [],
+            "representations": []
+          },
+          {
+            "statusCode": 404,
+            "description": "Not Found",
+            "headers": [],
+            "representations": []
+          }
+        ],
+        "displayName": "url : api/v1/menuItems/menuFullPLU/{menuFullPLU}/ingredientFullPLU/{ingredientFullPLU}",
+        "method": "GET",
+        "urlTemplate": "/api/v{version}/menuitems/menufullplu/{menuFullPLU}/ingredientfullplu/{ingredientFullPLU}"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/siteapi/get-api-v-version-menuitems-menufullplu-menufullplu-ingredientfullplu-ingred')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations",
+      "apiVersion": "2019-01-01",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis', parameters('ApimServiceName'), 'siteapi')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "MenuItems"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/siteapi/get-api-v-version-menuitems-menufullplu-menufullplu-ingredientfullplu-ingred/MenuItems')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2019-01-01",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations', parameters('ApimServiceName'), 'siteapi', 'get-api-v-version-menuitems-menufullplu-menufullplu-ingredientfullplu-ingred')]"
+      ]
+    },
+    {
+      "properties": {
+        "templateParameters": [
+          {
+            "name": "version",
+            "type": "string",
+            "required": true,
+            "values": []
+          }
+        ],
+        "description": "url : api/v1/site/sites",
+        "request": {
+          "queryParameters": [],
+          "headers": [],
+          "representations": []
+        },
+        "responses": [
+          {
+            "statusCode": 200,
+            "description": "Success",
+            "headers": [],
+            "representations": []
+          },
+          {
+            "statusCode": 404,
+            "description": "Not Found",
+            "headers": [],
+            "representations": []
+          }
+        ],
+        "displayName": "url : api/v1/site/sites",
+        "method": "GET",
+        "urlTemplate": "/api/v{version}/sites"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/siteapi/get-api-v-version-sites')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations",
+      "apiVersion": "2019-01-01",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis', parameters('ApimServiceName'), 'siteapi')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "Site"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/siteapi/get-api-v-version-sites/Site')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2019-01-01",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations', parameters('ApimServiceName'), 'siteapi', 'get-api-v-version-sites')]"
+      ]
+    },
+    {
+      "properties": {
+        "templateParameters": [
+          {
+            "name": "version",
+            "type": "string",
+            "required": true,
+            "values": []
+          }
+        ],
+        "description": "url: api/v1/sites/active",
+        "request": {
+          "queryParameters": [],
+          "headers": [],
+          "representations": []
+        },
+        "responses": [
+          {
+            "statusCode": 200,
+            "description": "Success",
+            "headers": [],
+            "representations": []
+          },
+          {
+            "statusCode": 404,
+            "description": "Not Found",
+            "headers": [],
+            "representations": []
+          }
+        ],
+        "displayName": "url: api/v1/sites/active",
+        "method": "GET",
+        "urlTemplate": "/api/v{version}/sites/active"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/siteapi/get-api-v-version-sites-active')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations",
+      "apiVersion": "2019-01-01",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis', parameters('ApimServiceName'), 'siteapi')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "Site"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/siteapi/get-api-v-version-sites-active/Site')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2019-01-01",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations', parameters('ApimServiceName'), 'siteapi', 'get-api-v-version-sites-active')]"
+      ]
+    },
+    {
+      "properties": {
+        "templateParameters": [
+          {
+            "name": "site",
+            "description": "Format - int32.",
+            "type": "integer",
+            "required": true,
+            "values": []
+          },
+          {
+            "name": "version",
+            "type": "string",
+            "required": true,
+            "values": []
+          }
+        ],
+        "description": "url: api/v1/sites/active/66",
+        "request": {
+          "queryParameters": [],
+          "headers": [],
+          "representations": []
+        },
+        "responses": [
+          {
+            "statusCode": 200,
+            "description": "Success",
+            "headers": [],
+            "representations": []
+          },
+          {
+            "statusCode": 404,
+            "description": "Not Found",
+            "headers": [],
+            "representations": []
+          }
+        ],
+        "displayName": "url: api/v1/sites/active/66",
+        "method": "GET",
+        "urlTemplate": "/api/v{version}/sites/active/{site}"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/siteapi/get-api-v-version-sites-active-site')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations",
+      "apiVersion": "2019-01-01",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis', parameters('ApimServiceName'), 'siteapi')]"
+      ]
+    },
+    {
+      "properties": {
+        "displayName": "Site"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/siteapi/get-api-v-version-sites-active-site/Site')]",
+      "type": "Microsoft.ApiManagement/service/apis/operations/tags",
+      "apiVersion": "2019-01-01",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis/operations', parameters('ApimServiceName'), 'siteapi', 'get-api-v-version-sites-active-site')]"
+      ]
+    },
+    {
+      "properties": {
+        "value": "[concat(parameters('PolicyXMLBaseUrl'), '/siteapi-apiPolicy.xml')]",
+        "format": "rawxml-link"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/siteapi/policy')]",
+      "type": "Microsoft.ApiManagement/service/apis/policies",
+      "apiVersion": "2019-01-01",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis', parameters('ApimServiceName'), 'siteapi')]"
+      ]
+    },
+    {
+      "properties": {},
+      "name": "[concat(parameters('ApimServiceName'), '/site-product/siteapi')]",
+      "type": "Microsoft.ApiManagement/service/products/apis",
+      "apiVersion": "2019-01-01",
+      "dependsOn": [
+        "[resourceId('Microsoft.ApiManagement/service/apis', parameters('ApimServiceName'), 'siteapi')]"
+      ]
+    }
+  ]
+}
