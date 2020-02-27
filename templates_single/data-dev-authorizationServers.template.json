@@ -1,0 +1,41 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "ApimServiceName": {
+      "type": "string"
+    },
+    "PolicyXMLBaseUrl": {
+      "type": "string"
+    }
+  },
+  "resources": [
+    {
+      "properties": {
+        "authorizationMethods": [
+          "GET"
+        ],
+        "clientAuthenticationMethod": [
+          "Body"
+        ],
+        "tokenBodyParameters": [],
+        "tokenEndpoint": "https://kgidentityserver-dev.azurewebsites.net/connect/token",
+        "supportState": false,
+        "bearerTokenSendingMethods": [
+          "authorizationHeader"
+        ],
+        "clientSecret": "SF3tgt-fbVv@chWc5@hU",
+        "displayName": "dataauth",
+        "clientRegistrationEndpoint": "https://kgidentityserver-dev.azurewebsites.net/connect/userinfo",
+        "authorizationEndpoint": "https://kgidentityserver-dev.azurewebsites.net/connect/authorize",
+        "grantTypes": [
+          "clientCredentials"
+        ],
+        "clientId": "c27fa9ce-996f-482a-d6b3-08d76941877f"
+      },
+      "name": "[concat(parameters('ApimServiceName'), '/dataauth')]",
+      "type": "Microsoft.ApiManagement/service/authorizationServers",
+      "apiVersion": "2019-01-01"
+    }
+  ]
+}
